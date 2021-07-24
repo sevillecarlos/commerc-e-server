@@ -11,7 +11,6 @@ class Api::V1::SessionController < ApplicationController
               first_name: @user.first_name,
               last_name: @user.last_name,
               email: @user.email,
-              
             }
             token = JWT.encode payload, hmac_secret, 'HS256'      
             render json: {token: token}, status: 200
