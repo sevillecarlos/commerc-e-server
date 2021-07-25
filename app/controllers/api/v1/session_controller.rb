@@ -5,9 +5,10 @@ require 'jwt'
 module Api
   module V1
     class SessionController < ApplicationController
-      def index 
-        render json: {msg: 'Hola Funciono'}
+      def index
+        render json: { msg: 'Hola Funciono' }
       end
+
       def create
         hmac_secret = '$C21$'
         @user = User.find_by(email: params['user'])

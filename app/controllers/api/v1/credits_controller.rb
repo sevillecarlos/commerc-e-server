@@ -23,16 +23,11 @@ module Api
           @credit = Credit.create!(amount: credit_params['amount'], user: @user)
           render json: @user.credits.last
         else
-          render json: {error: 'User dont exist'}
-        end
-
-      end
-
-      def update
-        @user = User.find_by_id(params[:id])
-        if @user
+          render json: { error: 'User dont exist' }
         end
       end
+
+      def update; end
 
       private
 
