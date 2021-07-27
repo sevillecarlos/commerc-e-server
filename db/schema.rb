@@ -12,7 +12,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_210_725_055_220) do
+ActiveRecord::Schema.define(version: 20_210_726_010_836) do
+  create_table 'articles', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
+    t.string 'name'
+    t.float 'total_price'
+    t.integer 'quantity'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'receipt_id'
+    t.index ['receipt_id'], name: 'index_articles_on_receipt_id'
+  end
+
   create_table 'credits', charset: 'utf8mb4', collation: 'utf8mb4_0900_ai_ci', force: :cascade do |t|
     t.float 'amount'
     t.datetime 'created_at', precision: 6, null: false

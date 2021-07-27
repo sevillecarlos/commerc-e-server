@@ -22,6 +22,7 @@ module Api
         @user = User.new(user_params)
         if @user.save
           @session = Session.new(user: @user.email, password: @user.password)
+          @credit = Credit.create!(amount: 100, user: @user)
           render json: { user: @user.email, password: @user.password } if @session.save
         else
           render json: { error: @user.errors }, status: 400

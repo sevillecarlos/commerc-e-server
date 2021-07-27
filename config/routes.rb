@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post 'session', to: 'session#create'
       resources :credits
       resources :receipts
+      resources :articles
     end
   end
 end
