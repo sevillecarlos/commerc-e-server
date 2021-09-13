@@ -14,9 +14,15 @@ module Api
       end
 
       def create
-        @user = User.find_by_id(credit_params['user_id'])
+        @articles = params[:articles]
+
+        @user = User.find_by_id(receipt_params['user_id'])
         if @user
-          @credit = Receipt.create!(code: credit_params['code'], total: credit_params['total'], user: @user)
+          @receipt = Receipt.create!(code: receipt_params['code'], total: receipt_params['total'], user: @user)
+          @articles.select do |article|
+            Article.create(name: article['name'], quantity: article['quantity'], total_price: article['price'],
+                           receipt_id: @receipt[:id])
+          end
           render json: @user.receipts
         else
           render json: { error: 'User dont exist' }
@@ -25,8 +31,8 @@ module Api
 
       private
 
-      def credit_params
-        params.require(:receipt).permit(:code, :total, :user_id)
+      def receipt_params
+        params.permit(:code, :total, :user_id, articles: [])
       end
     end
   end

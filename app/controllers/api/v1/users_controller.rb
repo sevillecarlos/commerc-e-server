@@ -18,7 +18,6 @@ module Api
       end
 
       def create
-        @user = User.find_by(email: params['email'])
         @user = User.new(user_params)
         if @user.save
           @session = Session.new(user: @user.email, password: @user.password)
