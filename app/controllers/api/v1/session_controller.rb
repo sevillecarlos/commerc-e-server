@@ -1,9 +1,20 @@
+require 'jwt'
+
+
 class Api::V1::SessionController < ApplicationController
     def create
-        @user = User.find_by(email: params[:email])
+        hmac_secret = '$C21$'        
+        @user = User.find_by(email:params["email"])
         if @user
           if @user.password === params[:password]
-            render json: @user, status: 200
+            payload ={
+              first_name: @user.first_name,
+              last_name: @user.last_name,
+              email: @user.email,
+              
+            }
+            token = JWT.encode payload, hmac_secret, 'HS256'      
+            render json: {token: token}, status: 200
           else
             render json: { error: 'Incorrect password' }, status: 400
           end

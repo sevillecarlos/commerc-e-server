@@ -1,4 +1,5 @@
 require 'bcrypt'
+require 'jwt'
 
 class Api::V1::UsersController < ApplicationController
 
@@ -15,9 +16,18 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
+    hmac_secret = '$C21$'
+    @user = User.find_by(email:params["email"])
     @user = User.new(user_params)
     if @user.save
-        render json: @user
+      payload ={
+        first_name: @user.first_name,
+        last_name: @user.last_name,
+        email: @user.email,
+        first_time: true
+      }
+      token = JWT.encode payload, hmac_secret, 'HS256'
+      render json: {token:token}, status: 200
     else
         render json: {error: @user.errors}, status: 400
     end
