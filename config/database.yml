@@ -16,7 +16,6 @@ default: &default
   username: <%= ENV['COMMERC_E_BACKEND_DATABASE_USER'] %>
   password: <%= ENV['COMMERC_E_BACKEND_DATABASE_PASSWORD'] %>
   socket: /var/run/mysqld/mysqld.sock
-  host: 'mysql-sevica.alwaysdata.net'
 
 development:
   <<: *default
@@ -53,5 +52,4 @@ production:
   <<: *default
   database: sevica_commerce
   username: sevica
-  password: Destino21
-  host: 'mysql-sevica.alwaysdata.net'
+  password: <%= ENV['COMMERC_E_BACKEND_DATABASE_PASSWORD'] %>
