@@ -5,22 +5,10 @@ require 'jwt'
 module Api
   module V1
     class SessionController < ApplicationController
-      def index
-        render json: { msg: 'Hola Funciono' }
-      end
-
       def create
-        hmac_secret = '$C21$'
-        @user = User.find_by(email: params['user'])
+        @user = User.find_by(email: params[:user])
         if @user
-          if @user.password === params[:password]
-            payload = {
-              first_name: @user.first_name,
-              last_name: @user.last_name,
-              email: @user.email,
-              id: @user.id
-            }
-            token = JWT.encode payload, hmac_secret, 'HS256'
+          if @user.authenticate(params[:password])
             render json: { token: token }, status: 200
           else
             render json: { error: 'Incorrect password' }, status: 400
@@ -31,6 +19,16 @@ module Api
       end
 
       private
+
+      def token
+        payload = {
+          first_name: @user.first_name,
+          last_name: @user.last_name,
+          email: @user.email,
+          id: @user.id
+        }
+        JWT.encode payload, '$C21$', 'HS256'
+      end
 
       def user_params
         params.require(:user).permit(:user, :password)

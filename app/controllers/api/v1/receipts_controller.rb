@@ -32,7 +32,7 @@ module Api
       private
 
       def receipt_params
-        params.permit(:code, :total, :user_id, articles: [])
+        params.require(:receipt).permit(:code, :total, :user_id, articles: [])
       end
     end
   end

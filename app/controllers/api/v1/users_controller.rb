@@ -18,30 +18,20 @@ module Api
       end
 
       def create
-        @user = User.new(user_params)
+        @user = User.new(first_name: user_params[:first_name], last_name: user_params[:last_name],
+                         email: user_params[:email], password: user_params[:password_digest])
         if @user.save
-          @session = Session.new(user: @user.email, password: @user.password)
           @credit = Credit.create!(amount: 100, user: @user)
-          render json: { user: @user.email, password: @user.password } if @session.save
+          render json: { user: @user.email, password: @user.password }
         else
           render json: { error: @user.errors }, status: 400
-        end
-      end
-
-      def destroy
-        @user = User.find(params[:id])
-        if @user
-          @user.destroy
-          render json: { message: 'User successfully deleted.' }, status: 200
-        else
-          render json: { message: 'unable to deleted user.' }, status: 400
         end
       end
 
       private
 
       def user_params
-        params.require(:user).permit(:first_name, :last_name, :email, :password)
+        params.require(:user).permit(:first_name, :last_name, :email, :password_digest)
       end
     end
   end

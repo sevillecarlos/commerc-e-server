@@ -3,7 +3,7 @@
 require 'bcrypt'
 
 class User < ApplicationRecord
-  # has_secure_password
+  has_secure_password
   has_many  :credits
   has_many  :receipts
   validates :last_name, presence: true
