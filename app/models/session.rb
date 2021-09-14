@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Session < ApplicationRecord
-    validates :email, presence: true
-    validates :password, presence: true
+  validates :user, presence: true
+  validates :password, presence: true
 end

@@ -1,68 +1,38 @@
+# frozen_string_literal: true
+
 require 'bcrypt'
-require 'jwt'
 
-class Api::V1::UsersController < ApplicationController
+module Api
+  module V1
+    class UsersController < ApplicationController
+      include BCrypt
 
-  include BCrypt
+      def index
+        @users = User.all
+        render json: @users
+      end
 
-  def index
-    @users = User.all 
-    render json: @users
-  end
+      def show
+        @user = User.find_by_email(params[:id])
+        render json: @user
+      end
 
-  def show
-    @user = User.find(params[:id])
-    render json: @user
-  end
+      def create
+        @user = User.new(first_name: user_params[:first_name], last_name: user_params[:last_name],
+                         email: user_params[:email], password: user_params[:password_digest])
+        if @user.save
+          @credit = Credit.create!(amount: 100, user: @user)
+          render json: { user: @user.email, password: @user.password }
+        else
+          render json: { error: @user.errors }, status: 400
+        end
+      end
 
-  def create
-    hmac_secret = '$C21$'
-    @user = User.find_by(email:params["email"])
-    @user = User.new(user_params)
-    if @user.save
-      payload ={
-        first_name: @user.first_name,
-        last_name: @user.last_name,
-        email: @user.email,
-        first_time: true
-      }
-      token = JWT.encode payload, hmac_secret, 'HS256'
-      render json: {token:token}, status: 200
-    else
-        render json: {error: @user.errors}, status: 400
+      private
+
+      def user_params
+        params.require(:user).permit(:first_name, :last_name, :email, :password_digest)
+      end
     end
   end
-
-  def destroy
-    @user = User.find(params[:id])
-    if @user
-        @user.destroy
-        render json: {message: 'User successfully deleted.'}, status:200
-    else
-        render json: {message: 'unable to deleted user.'}, status:400
-    end 
-
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password)
-  end
-
 end
-
-
-# class AuthenticationController < ApplicationController
-#     def authenticate
-#         user = User.find_by_email(user_params[:email])
-#         if user && user.authenticate(user_params[:password])
-#             token = JWT.encode({ user_id: user.id }, "4dfjfoMYSECRETKEY1134") # <= Our application's secret key
-#             render json: { auth_token: token, user: user } 
-#         end
-#     end
-
-#     def user_params
-#         params.permit(:email, :password)
-#     end
-# end

@@ -10,20 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_18_172948) do
+ActiveRecord::Schema.define(version: 2021_09_13_181233) do
 
-  create_table "sessions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "articles", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.float "total_price"
+    t.integer "quantity"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "receipt_id"
+    t.index ["receipt_id"], name: "index_articles_on_receipt_id"
+  end
+
+  create_table "credits", charset: "utf8mb4", force: :cascade do |t|
+    t.float "amount"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_credits_on_user_id"
+  end
+
+  create_table "receipts", charset: "utf8mb4", force: :cascade do |t|
+    t.string "code"
+    t.float "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_receipts_on_user_id"
+  end
+
+  create_table "sessions", charset: "utf8mb4", force: :cascade do |t|
     t.string "user"
     t.string "password"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "email"
-    t.string "password"
+    t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
