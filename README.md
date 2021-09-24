@@ -20,7 +20,7 @@ git clone https://github.com/sevillecarlos/commerc-e-server.git
 rails s
 ```
 ### Create your .env file for the environment variables
-* *COMMERC_E_BACKEND_DATABASE_USER
+* *COMMERC_E_BACKEND_DATABASE_USER*
 * *COMMERC_E_BACKEND_DATABASE_PASSWORD*
 
 ## Commerc-e App
