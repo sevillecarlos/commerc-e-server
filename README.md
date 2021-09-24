@@ -2,7 +2,6 @@
 The server for the Commerc-e store.
 # Built
 ## Development Technologies
-- Rails
 - Ruby on Rails
 ## Database
 - MySQL
