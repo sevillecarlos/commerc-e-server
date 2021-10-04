@@ -3,6 +3,7 @@
 # Built
 ## Development Technologies
 ![](https://img.shields.io/badge/Back--End-RubyOnRails-red)
+![](https://img.shields.io/badge/Programming--Language-Ruby-red)
 ## Database
 ![](https://img.shields.io/badge/Database-MYSQL-yellow)
 
