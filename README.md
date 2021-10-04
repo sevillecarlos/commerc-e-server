@@ -2,7 +2,8 @@
 > The server for the Commerc-e store.
 # Built
 ## Development Technologies
-![](https://img.shields.io/badge/Back-End-RubyOnRails-red)
+![](https://img.shields.io/badge/Database-MYSQL-yellow)
+
 ## Database
 ![](https://img.shields.io/badge/Database-MYSQL-yellow)
 
