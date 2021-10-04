@@ -1,5 +1,5 @@
 # Commerc-e Server
-The server for the Commerc-e store.
+> The server for the Commerc-e store.
 # Built
 ## Development Technologies
 - Ruby on Rails
